@@ -3,6 +3,8 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import seedu.address.logic.parser.exceptions.ParseException;
+
 /**
  * Represents a Person's priority in the address book.
  * The priority can only be one of these values: "NONE", "LOW", "MEDIUM", or "HIGH".
@@ -47,6 +49,24 @@ public class Priority {
      */
     public static boolean isValidPriority(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    /**
+     * Parses a string representing a priority and returns a {@link Priority} object.
+     *
+     * @param priorityStr the string representing the priority to be parsed.
+     * @return A {@link Priority} object corresponding to the provided priority string.
+     * @throws ParseException if the provided string does not conform to the expected
+     *         format or is invalid as per the priority constraints defined in the
+     *         {@link Priority} class.
+     */
+    public static Priority parsePriority(String priorityStr) throws ParseException {
+        requireNonNull(priorityStr);
+        String trimmedPriority = priorityStr.trim().toUpperCase();
+        if (!isValidPriority(trimmedPriority)) {
+            throw new ParseException(MESSAGE_CONSTRAINTS);
+        }
+        return new Priority(trimmedPriority);
     }
 
     /**

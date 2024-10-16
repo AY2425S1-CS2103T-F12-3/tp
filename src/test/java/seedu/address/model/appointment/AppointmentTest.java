@@ -1,19 +1,40 @@
 package seedu.address.model.appointment;
 
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_APPOINTMENT_DATE_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_APPOINTMENT_DATE_NONEXISTANT;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_APPOINTMENT_NAME;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_APPOINTMENT_TIMEPERIOD_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_APPOINTMENT_TIMEPERIOD_ORDER;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_DATE_DENTAL;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_NAME_DENTAL;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_APPOINTMENT_TIMEPERIOD_DENTAL;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_DATE_FORMAT;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_DATE_FORMAT_SERIALISED;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_DATE_NONEXISTANT;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_DATE_NONEXISTANT_SERIALISED;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_NAME;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_NAME_SERIALISED;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_TIMEPERIOD_FORMAT;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_TIMEPERIOD_FORMAT_SERIALISED;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_TIMEPERIOD_ORDER;
+import static seedu.address.testutil.TestValues.INVALID_APPOINTMENT_TIMEPERIOD_ORDER_SERIALISED;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_AMY_SERIALISED;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_BOB_SERIALISED;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_DATE_AMY;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_DATE_BOB;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_DATE_DENTAL;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_NAME_AMY;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_NAME_BOB;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_NAME_DENTAL;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_TIMEPERIOD_AMY;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_TIMEPERIOD_BOB;
+import static seedu.address.testutil.TestValues.VALID_APPOINTMENT_TIMEPERIOD_DENTAL;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.parser.exceptions.ParseException;
 
 class AppointmentTest {
 
@@ -165,5 +186,64 @@ class AppointmentTest {
         Assertions.assertFalse(a.isClashing("2024-11-25", "1045-1200")); // "laterDateTime"
         Assertions.assertFalse(a.isClashing("2024-11-25", "1100-1235")); // "laterDateAfter"
         Assertions.assertFalse(a.isClashing("2024-11-25", "1235-1345")); // "laterDateAfter"
+    }
+
+
+    @Test
+    public void parseAppointment_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Appointment.parseAppointment(null));
+    }
+
+    @Test
+    public void parseAppointment_notEnoughtData_throwsParseException() {
+        assertThrows(ParseException.class, () -> Appointment.parseAppointment(
+                "456"));
+        assertThrows(ParseException.class, () -> Appointment.parseAppointment(
+                "123:456"));
+    }
+
+    @Test
+    public void parseAppointment_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> Appointment.parseAppointment(
+                INVALID_APPOINTMENT_NAME_SERIALISED));
+        assertThrows(ParseException.class, () -> Appointment.parseAppointment(
+                INVALID_APPOINTMENT_DATE_FORMAT_SERIALISED));
+        assertThrows(ParseException.class, () -> Appointment.parseAppointment(
+                INVALID_APPOINTMENT_DATE_NONEXISTANT_SERIALISED));
+        assertThrows(ParseException.class, () -> Appointment.parseAppointment(
+                INVALID_APPOINTMENT_TIMEPERIOD_ORDER_SERIALISED));
+        assertThrows(ParseException.class, () -> Appointment.parseAppointment(
+                INVALID_APPOINTMENT_TIMEPERIOD_FORMAT_SERIALISED));
+    }
+
+    @Test
+    public void parseAppointments_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Appointment.parseAppointments(null));
+    }
+
+    @Test
+    public void parseAppointments_collectionWithInvalidAppointments_throwsParseException() {
+        assertThrows(ParseException.class, () -> Appointment.parseAppointments(Arrays.asList(
+                VALID_APPOINTMENT_AMY_SERIALISED,
+                INVALID_APPOINTMENT_NAME_SERIALISED)));
+    }
+
+    @Test
+    public void parseAppointments_emptyCollection_returnsEmptySet() throws Exception {
+        assertTrue(Appointment.parseAppointments(Collections.emptyList()).isEmpty());
+    }
+
+    @Test
+    public void parseAppointments_collectionWithValidAppointments_returnsAppointmentSet() throws Exception {
+        Set<Appointment> actualAppointmentSet = Appointment.parseAppointments(
+                Arrays.asList(VALID_APPOINTMENT_AMY_SERIALISED, VALID_APPOINTMENT_BOB_SERIALISED));
+        Set<Appointment> expectedAppointmentSet = new HashSet<Appointment>(
+                Arrays.asList(new Appointment(VALID_APPOINTMENT_NAME_AMY,
+                                              VALID_APPOINTMENT_DATE_AMY,
+                                              VALID_APPOINTMENT_TIMEPERIOD_AMY),
+                              new Appointment(VALID_APPOINTMENT_NAME_BOB,
+                                              VALID_APPOINTMENT_DATE_BOB,
+                                              VALID_APPOINTMENT_TIMEPERIOD_BOB)));
+        assertEquals(expectedAppointmentSet, actualAppointmentSet);
     }
 }

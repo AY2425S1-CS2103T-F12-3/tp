@@ -1,10 +1,14 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.testutil.TestValues;
 
 public class NricTest {
 
@@ -61,5 +65,28 @@ public class NricTest {
 
         // different values -> returns false
         assertFalse(nric.equals(new Nric("S1234567B")));
+    }
+
+    @Test
+    public void parseNric_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Nric.parseNric((String) null));
+    }
+
+    @Test
+    public void parseNric_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> Nric.parseNric(TestValues.INVALID_NRIC));
+    }
+
+    @Test
+    public void parseNric_validValueWithoutWhitespace_returnsNric() throws Exception {
+        Nric expectedNric = new Nric(TestValues.VALID_NRIC);
+        assertEquals(expectedNric, Nric.parseNric(TestValues.VALID_NRIC));
+    }
+
+    @Test
+    public void parseNric_validValueWithWhitespace_returnsTrimmedNric() throws Exception {
+        String nricWithWhitespace = TestValues.WHITESPACE + TestValues.VALID_NRIC + TestValues.WHITESPACE;
+        Nric expectedNric = new Nric(TestValues.VALID_NRIC);
+        assertEquals(expectedNric, Nric.parseNric(nricWithWhitespace));
     }
 }

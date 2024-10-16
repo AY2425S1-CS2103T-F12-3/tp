@@ -9,7 +9,7 @@ import seedu.address.model.person.MedCon;
 /**
  * Jackson-friendly version of {@link MedCon}.
  */
-class JsonAdaptedMedCon {
+public class JsonAdaptedMedCon {
 
     private final String medConName;
 

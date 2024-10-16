@@ -3,6 +3,8 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.model.person.Nric.parseNric;
+import static seedu.address.model.tag.Tag.parseTags;
 
 import java.util.Set;
 import java.util.logging.Logger;
@@ -34,13 +36,13 @@ public class AddAllergyCommandParser implements Parser<AddAllergyCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAllergyCommand.MESSAGE_USAGE));
         }
         try {
-            Nric nric = ParserUtil.parseNric(argMultimap.getValue(PREFIX_NRIC).get());
-            Set<Tag> Allergies = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            Nric nric = parseNric(argMultimap.getValue(PREFIX_NRIC).get());
+            Set<Tag> allergies = parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
             logger.info("Successfully parsed nric for AddAllergyCommand: " + nric);
-            logger.info("Successfully parsed tags for AddAllergyCommand: " + Allergies);
+            logger.info("Successfully parsed tags for AddAllergyCommand: " + allergies);
 
-            return new AddAllergyCommand(nric, Allergies);
+            return new AddAllergyCommand(nric, allergies);
         } catch (ParseException pe) {
             logger.warning("Unable to parse the NRIC or tags for FindNricCommand: " + args);
             throw new ParseException(

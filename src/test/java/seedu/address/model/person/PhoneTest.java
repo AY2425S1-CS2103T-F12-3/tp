@@ -1,10 +1,14 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.testutil.TestValues;
 
 public class PhoneTest {
 
@@ -56,5 +60,28 @@ public class PhoneTest {
 
         // different values -> returns false
         assertFalse(phone.equals(new Phone("995")));
+    }
+
+    @Test
+    public void parsePhone_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Phone.parsePhone((String) null));
+    }
+
+    @Test
+    public void parsePhone_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> Phone.parsePhone(TestValues.INVALID_PHONE));
+    }
+
+    @Test
+    public void parsePhone_validValueWithoutWhitespace_returnsPhone() throws Exception {
+        Phone expectedPhone = new Phone(TestValues.VALID_PHONE);
+        assertEquals(expectedPhone, Phone.parsePhone(TestValues.VALID_PHONE));
+    }
+
+    @Test
+    public void parsePhone_validValueWithWhitespace_returnsTrimmedPhone() throws Exception {
+        String phoneWithWhitespace = TestValues.WHITESPACE + TestValues.VALID_PHONE + TestValues.WHITESPACE;
+        Phone expectedPhone = new Phone(TestValues.VALID_PHONE);
+        assertEquals(expectedPhone, Phone.parsePhone(phoneWithWhitespace));
     }
 }

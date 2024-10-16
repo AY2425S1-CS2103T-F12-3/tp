@@ -58,7 +58,7 @@ public class AddApptCommandParser implements Parser<AddApptCommand> {
             throw new ParseException(e.getMessage());
         }
 
-        Nric patientNric = ParserUtil.parseNric(patientNricValue);
+        Nric patientNric = Nric.parseNric(patientNricValue);
 
         return new AddApptCommand(new NricMatchesPredicate(patientNric), newApptName, newApptDate, newApptTime);
     }

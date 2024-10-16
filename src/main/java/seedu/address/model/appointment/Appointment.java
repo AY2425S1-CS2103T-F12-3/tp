@@ -8,8 +8,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.AddApptCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
  * Represents an Appointment in the MediBase.
@@ -59,6 +65,56 @@ public class Appointment implements Comparable<Appointment> {
         this.appointmentStartTime = getTimeFromString(appointmentTimePeriod.substring(0, 4));
         this.appointmentEndTime = getTimeFromString(appointmentTimePeriod.substring(5, 9));
 
+    }
+
+    /**
+     * Parses a serialised {@code String appointment} into a {@code Appointment}.
+     *
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code appointment} is invalid.
+     */
+    public static Appointment parseAppointment(String appointment) throws ParseException {
+        requireNonNull(appointment);
+        String[] trimmedAppointments = appointment.trim().split(":");
+        if (trimmedAppointments.length < 3) {
+            throw new ParseException(MESSAGE_CONSTRAINTS);
+        }
+
+        if (!isValidAppointmentName(trimmedAppointments[0])) {
+            throw new ParseException(MESSAGE_CONSTRAINTS);
+        }
+
+        if (!isValidDate(trimmedAppointments[1])) {
+            throw new ParseException(MESSAGE_CONSTRAINTS_APPT_DATE_WRONG_FORMAT);
+        }
+        try {
+            Appointment.checkIsTimePeriodValid(trimmedAppointments[2]);
+        } catch (Exception e) {
+            throw new ParseException(e.getMessage());
+        }
+
+        try {
+            return new Appointment(trimmedAppointments[0], trimmedAppointments[1], trimmedAppointments[2]);
+        } catch (IllegalValueException e) {
+            throw new ParseException(AddApptCommand.MESSAGE_USAGE);
+        }
+    }
+
+    /**
+     * Parses {@code Collection<String> appointments} into a {@code Set<Appointment>}.
+     */
+    public static Set<Appointment> parseAppointments(Collection<String> appointments) throws ParseException {
+        requireNonNull(appointments);
+        if (appointments.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        final Set<Appointment> appointmentSet = new HashSet<>();
+        for (String appointmentName : appointments) {
+            appointmentSet.add(parseAppointment(appointmentName));
+        }
+        return appointmentSet;
     }
 
     private LocalTime getTimeFromString(String time) {

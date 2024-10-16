@@ -1,7 +1,6 @@
 package seedu.address.testutil;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
@@ -9,13 +8,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMEPERIOD;
 
 import java.util.Set;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.model.appointment.Appointment;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -45,14 +42,6 @@ public class PersonUtil {
         sb.append(PREFIX_PHONE).append(person.getPhone().value).append(" ");
         sb.append(PREFIX_EMAIL).append(person.getEmail().value).append(" ");
         sb.append(PREFIX_ADDRESS).append(person.getAddress().value).append(" ");
-        for (Tag tag : person.getTags()) {
-            sb.append(PREFIX_TAG).append(tag.tagName).append(" ");
-        }
-        for (Appointment s : person.getAppointments()) {
-            sb.append(PREFIX_TAG).append(s.getAppointmentName()).append(" ")
-              .append(PREFIX_DATE).append(s.getAppointmentDate()).append(" ")
-              .append(PREFIX_TIMEPERIOD).append(s.getAppointmentTimePeriod()).append(" ");
-        }
         return sb.toString();
     }
 

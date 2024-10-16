@@ -40,9 +40,9 @@ public class PriorityCommandParser implements Parser<PriorityCommand> {
         }
 
         String nricStr = argMultimap.getValue(PREFIX_NRIC).orElse("");
-        Nric nric = ParserUtil.parseNric(nricStr);
+        Nric nric = Nric.parseNric(nricStr);
         String priorityStr = argMultimap.getValue(PREFIX_PRIORITY).orElse("");
-        Priority priority = ParserUtil.parsePriority(priorityStr);
+        Priority priority = Priority.parsePriority(priorityStr);
 
         return new PriorityCommand(nric, priority);
     }

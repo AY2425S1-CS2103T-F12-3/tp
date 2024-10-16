@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.model.person.Nric.parseNric;
 
 import java.util.logging.Logger;
 
@@ -23,7 +24,7 @@ public class FindNricCommandParser implements Parser<FindNricCommand> {
      */
     public FindNricCommand parse(String args) throws ParseException {
         try {
-            Nric patientNric = ParserUtil.parseNric(args);
+            Nric patientNric = parseNric(args);
             logger.info("Successfully parsed the NRIC for FindNricCommand: " + patientNric);
             return new FindNricCommand(new NricMatchesPredicate(patientNric));
         } catch (ParseException pe) {

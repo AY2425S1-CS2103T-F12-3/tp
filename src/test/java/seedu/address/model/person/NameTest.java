@@ -1,10 +1,14 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.testutil.TestValues;
 
 public class NameTest {
 
@@ -56,5 +60,28 @@ public class NameTest {
 
         // different values -> returns false
         assertFalse(name.equals(new Name("Other Valid Name")));
+    }
+
+    @Test
+    public void parseName_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Name.parseName((String) null));
+    }
+
+    @Test
+    public void parseName_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> Name.parseName(TestValues.INVALID_NAME));
+    }
+
+    @Test
+    public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
+        Name expectedName = new Name(TestValues.VALID_NAME);
+        assertEquals(expectedName, Name.parseName(TestValues.VALID_NAME));
+    }
+
+    @Test
+    public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
+        String nameWithWhitespace = TestValues.WHITESPACE + TestValues.VALID_NAME + TestValues.WHITESPACE;
+        Name expectedName = new Name(TestValues.VALID_NAME);
+        assertEquals(expectedName, Name.parseName(nameWithWhitespace));
     }
 }

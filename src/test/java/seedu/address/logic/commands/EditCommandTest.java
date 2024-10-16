@@ -3,14 +3,27 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TestValues.AMY;
+import static seedu.address.testutil.TestValues.BOB;
+import static seedu.address.testutil.TestValues.VALID_ADDRESS_AMY;
+import static seedu.address.testutil.TestValues.VALID_ADDRESS_BOB;
+import static seedu.address.testutil.TestValues.VALID_DOB_AMY;
+import static seedu.address.testutil.TestValues.VALID_DOB_BOB;
+import static seedu.address.testutil.TestValues.VALID_EMAIL_AMY;
+import static seedu.address.testutil.TestValues.VALID_EMAIL_BOB;
+import static seedu.address.testutil.TestValues.VALID_GENDER_AMY;
+import static seedu.address.testutil.TestValues.VALID_GENDER_BOB;
+import static seedu.address.testutil.TestValues.VALID_NAME_AMY;
+import static seedu.address.testutil.TestValues.VALID_NAME_BOB;
+import static seedu.address.testutil.TestValues.VALID_NRIC_AMY;
+import static seedu.address.testutil.TestValues.VALID_NRIC_BOB;
+import static seedu.address.testutil.TestValues.VALID_PHONE_AMY;
+import static seedu.address.testutil.TestValues.VALID_PHONE_BOB;
+import static seedu.address.testutil.TestValues.VALID_TAG_FRIEND;
+import static seedu.address.testutil.TestValues.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.AMY;
-import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.DANIEL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -35,6 +48,24 @@ import seedu.address.testutil.PersonBuilder;
  */
 
 public class EditCommandTest {
+
+    public static final EditPersonDescriptor DESC_AMY =
+            new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
+                                             .withGender(VALID_GENDER_AMY)
+                                             .withNric(VALID_NRIC_AMY)
+                                             .withDateOfBirth(VALID_DOB_AMY)
+                                             .withPhone(VALID_PHONE_AMY)
+                                             .withEmail(VALID_EMAIL_AMY)
+                                             .withAddress(VALID_ADDRESS_AMY)
+                                             .withTags(VALID_TAG_FRIEND)
+                                             .build();
+
+    public static final EditPersonDescriptor DESC_BOB =
+            new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).withNric(VALID_NRIC_BOB)
+                                             .withDateOfBirth(VALID_DOB_BOB).withGender(VALID_GENDER_BOB)
+                                             .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
+                                             .withAddress(VALID_ADDRESS_BOB)
+                                             .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 

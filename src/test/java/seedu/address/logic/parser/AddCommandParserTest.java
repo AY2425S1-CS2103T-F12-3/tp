@@ -1,37 +1,6 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.DOB_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.DOB_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.GENDER_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.GENDER_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_DOB_FORMAT_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_DOB_VALUE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_GENDER_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_NRIC_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.NRIC_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NRIC_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
-import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DOB_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_GENDER_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -41,7 +10,38 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TestValues.ADDRESS_DESC_AMY;
+import static seedu.address.testutil.TestValues.ADDRESS_DESC_BOB;
+import static seedu.address.testutil.TestValues.BOB;
+import static seedu.address.testutil.TestValues.DOB_DESC_AMY;
+import static seedu.address.testutil.TestValues.DOB_DESC_BOB;
+import static seedu.address.testutil.TestValues.EMAIL_DESC_AMY;
+import static seedu.address.testutil.TestValues.EMAIL_DESC_BOB;
+import static seedu.address.testutil.TestValues.GENDER_DESC_AMY;
+import static seedu.address.testutil.TestValues.GENDER_DESC_BOB;
+import static seedu.address.testutil.TestValues.INVALID_ADDRESS_DESC;
+import static seedu.address.testutil.TestValues.INVALID_DOB_FORMAT_DESC;
+import static seedu.address.testutil.TestValues.INVALID_DOB_VALUE_DESC;
+import static seedu.address.testutil.TestValues.INVALID_EMAIL_DESC;
+import static seedu.address.testutil.TestValues.INVALID_GENDER_DESC;
+import static seedu.address.testutil.TestValues.INVALID_NAME_DESC;
+import static seedu.address.testutil.TestValues.INVALID_NRIC_DESC;
+import static seedu.address.testutil.TestValues.INVALID_PHONE_DESC;
+import static seedu.address.testutil.TestValues.NAME_DESC_AMY;
+import static seedu.address.testutil.TestValues.NAME_DESC_BOB;
+import static seedu.address.testutil.TestValues.NRIC_DESC_AMY;
+import static seedu.address.testutil.TestValues.NRIC_DESC_BOB;
+import static seedu.address.testutil.TestValues.PHONE_DESC_AMY;
+import static seedu.address.testutil.TestValues.PHONE_DESC_BOB;
+import static seedu.address.testutil.TestValues.PREAMBLE_NON_EMPTY;
+import static seedu.address.testutil.TestValues.PREAMBLE_WHITESPACE;
+import static seedu.address.testutil.TestValues.VALID_ADDRESS_BOB;
+import static seedu.address.testutil.TestValues.VALID_DOB_BOB;
+import static seedu.address.testutil.TestValues.VALID_EMAIL_BOB;
+import static seedu.address.testutil.TestValues.VALID_GENDER_BOB;
+import static seedu.address.testutil.TestValues.VALID_NAME_BOB;
+import static seedu.address.testutil.TestValues.VALID_NRIC_BOB;
+import static seedu.address.testutil.TestValues.VALID_PHONE_BOB;
 
 import org.junit.jupiter.api.Test;
 
@@ -62,12 +62,12 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Person expectedPerson = new PersonBuilder(BOB).build();
+        Person expectedPerson = new PersonBuilder(BOB).withoutExtraProperties().build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + NRIC_DESC_BOB + DOB_DESC_BOB + GENDER_DESC_BOB + ADDRESS_DESC_BOB,
-                new AddCommand(expectedPerson));
+                           new AddCommand(expectedPerson));
     }
 
     @Test
@@ -239,9 +239,9 @@ public class AddCommandParserTest {
                 + INVALID_NRIC_DESC + DOB_DESC_BOB + GENDER_DESC_BOB, Nric.MESSAGE_CONSTRAINTS);
 
         // invalid date of birth format
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + NRIC_DESC_BOB + INVALID_DOB_FORMAT_DESC + GENDER_DESC_BOB,
-                DateOfBirth.MESSAGE_CONSTRAINTS_WRONG_FORMAT);
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + NRIC_DESC_BOB
+                                   + INVALID_DOB_FORMAT_DESC + GENDER_DESC_BOB,
+                           DateOfBirth.MESSAGE_CONSTRAINTS_WRONG_FORMAT);
 
         // invalid date of birth value
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB

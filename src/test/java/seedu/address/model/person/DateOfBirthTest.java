@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -8,6 +9,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.testutil.TestValues;
 
 public class DateOfBirthTest {
 
@@ -53,5 +57,34 @@ public class DateOfBirthTest {
 
         // different values -> returns false
         assertFalse(dateOfBirth.equals(new DateOfBirth("1999-01-01")));
+    }
+
+    @Test
+    public void parseDateOfBirth_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> DateOfBirth.parseDateOfBirth((String) null));
+    }
+
+    @Test
+    public void parseDateOfBirth_invalidFormat_throwsParseException() {
+        assertThrows(ParseException.class, () -> DateOfBirth.parseDateOfBirth(
+                TestValues.INVALID_DATE_OF_BIRTH_FORMAT));
+    }
+
+    @Test
+    public void parseDateOfBirth_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> DateOfBirth.parseDateOfBirth(TestValues.INVALID_DATE_OF_BIRTH_VALUE));
+    }
+
+    @Test
+    public void parseDateOfBirth_validValueWithoutWhitespace_returnsDateOfBirth() throws Exception {
+        DateOfBirth expectedDateOfBirth = new DateOfBirth(TestValues.VALID_DOB);
+        assertEquals(expectedDateOfBirth, DateOfBirth.parseDateOfBirth(TestValues.VALID_DOB));
+    }
+
+    @Test
+    public void parseDateOfBirth_validValueWithWhitespace_returnsTrimmedDateOfBirth() throws Exception {
+        String dobWithWhitespace = TestValues.WHITESPACE + TestValues.VALID_DOB + TestValues.WHITESPACE;
+        DateOfBirth expectedDateOfBirth = new DateOfBirth(TestValues.VALID_DOB);
+        assertEquals(expectedDateOfBirth, DateOfBirth.parseDateOfBirth(dobWithWhitespace));
     }
 }

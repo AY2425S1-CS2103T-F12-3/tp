@@ -3,6 +3,8 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import seedu.address.logic.parser.exceptions.ParseException;
+
 /**
  * Represents a patient's gender in MediBase3.
  * Guarantees: immutable; is valid as declared in {@link #isValidGender(String)}
@@ -27,6 +29,23 @@ public class Gender {
 
     public static boolean isValidGender(String gender) {
         return gender.matches(VALIDATION_REGEX);
+    }
+
+    /**
+     * Parses a {@code String gender} into a {@code Gender}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param gender The Gender to be parsed.
+     * @return The parsed Gender.
+     * @throws ParseException if the given {@code gender} is invalid.
+     */
+    public static Gender parseGender(String gender) throws ParseException {
+        requireNonNull(gender);
+        String trimmedGender = gender.trim();
+        if (!isValidGender(trimmedGender)) {
+            throw new ParseException(MESSAGE_CONSTRAINTS);
+        }
+        return new Gender(trimmedGender);
     }
 
     @Override

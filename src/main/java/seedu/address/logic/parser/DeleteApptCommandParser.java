@@ -53,7 +53,7 @@ public class DeleteApptCommandParser implements Parser<DeleteApptCommand> {
             throw new ParseException(e.getMessage());
         }
 
-        Nric patientNric = ParserUtil.parseNric(patientNricValue);
+        Nric patientNric = Nric.parseNric(patientNricValue);
 
         return new DeleteApptCommand(new NricMatchesPredicate(patientNric),
                                      new AppointmentExistsPredicate(newApptDate, newApptTime));

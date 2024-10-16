@@ -1,10 +1,14 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.testutil.TestValues;
 
 
 public class GenderTest {
@@ -57,5 +61,28 @@ public class GenderTest {
 
         // different values -> returns false
         assertFalse(gender.equals(new Gender("F")));
+    }
+
+    @Test
+    public void parseGender_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Gender.parseGender((String) null));
+    }
+
+    @Test
+    public void parseGender_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> Gender.parseGender(TestValues.INVALID_GENDER));
+    }
+
+    @Test
+    public void parseGender_validValueWithoutWhitespace_returnsGender() throws Exception {
+        Gender expectedGender = new Gender(TestValues.VALID_GENDER);
+        assertEquals(expectedGender, Gender.parseGender(TestValues.VALID_GENDER));
+    }
+
+    @Test
+    public void parseGender_validValueWithWhitespace_returnsTrimmedGender() throws Exception {
+        String genderWithWhitespace = TestValues.WHITESPACE + TestValues.VALID_GENDER + TestValues.WHITESPACE;
+        Gender expectedGender = new Gender(TestValues.VALID_GENDER);
+        assertEquals(expectedGender, Gender.parseGender(genderWithWhitespace));
     }
 }

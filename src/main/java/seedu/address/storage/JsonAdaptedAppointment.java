@@ -10,7 +10,7 @@ import seedu.address.model.appointment.Appointment;
 /**
  * Jackson-friendly version of {@link Appointment}.
  */
-class JsonAdaptedAppointment {
+public class JsonAdaptedAppointment {
 
     private final String appointmentSerialised;
 

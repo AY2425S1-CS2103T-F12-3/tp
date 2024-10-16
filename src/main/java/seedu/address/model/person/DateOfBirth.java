@@ -5,6 +5,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.commons.util.DateUtil.isAfterToday;
 import static seedu.address.commons.util.DateUtil.isValidDate;
 
+import seedu.address.logic.parser.exceptions.ParseException;
+
 /**
  * Represents a patient's date of birth in MediBase3.
  * Guarantees: immutable; is valid as declared in {@link #isValidDateOfBirth(String)}
@@ -35,6 +37,26 @@ public class DateOfBirth {
      */
     public static boolean isValidDateOfBirth(String dob) {
         return !(isAfterToday(dob));
+    }
+
+    /**
+     * Parses a {@code String dateOfBirth} into a {@code DateOfBirth}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param dob The DateOfBirth to be parsed.
+     * @return The parsed DateOfBirth.
+     * @throws ParseException if the given {@code dob} is invalid.
+     */
+    public static DateOfBirth parseDateOfBirth(String dob) throws ParseException {
+        requireNonNull(dob);
+        String trimmedDob = dob.trim();
+        if (!isValidDate(trimmedDob)) {
+            throw new ParseException(MESSAGE_CONSTRAINTS_WRONG_FORMAT);
+        }
+        if (!isValidDateOfBirth(trimmedDob)) {
+            throw new ParseException(MESSAGE_CONSTRAINTS_FUTURE_DATE);
+        }
+        return new DateOfBirth(trimmedDob);
     }
 
     @Override

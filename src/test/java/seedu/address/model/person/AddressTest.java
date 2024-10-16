@@ -1,10 +1,14 @@
 package seedu.address.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.testutil.TestValues;
 
 public class AddressTest {
 
@@ -52,5 +56,28 @@ public class AddressTest {
 
         // different values -> returns false
         assertFalse(address.equals(new Address("Other Valid Address")));
+    }
+
+    @Test
+    public void parseAddress_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Address.parseAddress((String) null));
+    }
+
+    @Test
+    public void parseAddress_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> Address.parseAddress(TestValues.INVALID_ADDRESS));
+    }
+
+    @Test
+    public void parseAddress_validValueWithoutWhitespace_returnsAddress() throws Exception {
+        Address expectedAddress = new Address(TestValues.VALID_ADDRESS);
+        assertEquals(expectedAddress, Address.parseAddress(TestValues.VALID_ADDRESS));
+    }
+
+    @Test
+    public void parseAddress_validValueWithWhitespace_returnsTrimmedAddress() throws Exception {
+        String addressWithWhitespace = TestValues.WHITESPACE + TestValues.VALID_ADDRESS + TestValues.WHITESPACE;
+        Address expectedAddress = new Address(TestValues.VALID_ADDRESS);
+        assertEquals(expectedAddress, Address.parseAddress(addressWithWhitespace));
     }
 }

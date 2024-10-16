@@ -37,7 +37,7 @@ public class AddMedConCommandParser implements Parser<AddMedConCommand> {
 
         // Parse NRIC
         String nricStr = argMultimap.getValue(PREFIX_NRIC).get();
-        Nric nric = ParserUtil.parseNric(nricStr);
+        Nric nric = Nric.parseNric(nricStr);
 
         // Parse all MedCon values and add them to a set
         Set<MedCon> medCons = new HashSet<>();
