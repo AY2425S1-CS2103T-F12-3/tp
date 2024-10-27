@@ -13,7 +13,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NRIC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PRIORITY_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PRIORITY_BOB;
-import static seedu.address.logic.commands.PriorityCommand.MESSAGE_USAGE;
+import static seedu.address.logic.commands.setPriorityCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRIORITY;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -22,32 +22,32 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.PriorityCommand;
+import seedu.address.logic.commands.setPriorityCommand;
 import seedu.address.model.person.Nric;
 import seedu.address.model.person.Priority;
 
-public class PriorityCommandParserTest {
+public class setPriorityCommandParserTest {
     private final PriorityCommandParser parser = new PriorityCommandParser();
 
     @Test
     public void parse_allFieldsValid_success() {
         // For Amy
-        PriorityCommand expectedCommandForAmy = new PriorityCommand(new Nric(VALID_NRIC_AMY),
+        setPriorityCommand expectedCommandForAmy = new setPriorityCommand(new Nric(VALID_NRIC_AMY),
                 new Priority(VALID_PRIORITY_AMY));
         assertParseSuccess(parser, NRIC_DESC_AMY + PRIORITY_DESC_AMY, expectedCommandForAmy);
 
         // For Bob
-        PriorityCommand expectedCommandForBob = new PriorityCommand(new Nric(VALID_NRIC_BOB),
+        setPriorityCommand expectedCommandForBob = new setPriorityCommand(new Nric(VALID_NRIC_BOB),
                 new Priority(VALID_PRIORITY_BOB));
         assertParseSuccess(parser, NRIC_DESC_BOB + PRIORITY_DESC_BOB, expectedCommandForBob);
 
         // Reverse Position of Nric and Priority for Amy
-        PriorityCommand expectedCommandForAmyReverseParameters = new PriorityCommand(new Nric(VALID_NRIC_AMY),
+        setPriorityCommand expectedCommandForAmyReverseParameters = new setPriorityCommand(new Nric(VALID_NRIC_AMY),
                 new Priority(VALID_PRIORITY_AMY));
         assertParseSuccess(parser, PRIORITY_DESC_AMY + NRIC_DESC_AMY, expectedCommandForAmyReverseParameters);
 
         // Reverse position of Nric and Priority for Bob
-        PriorityCommand expectedCommandForBobReverseParameters = new PriorityCommand(new Nric(VALID_NRIC_BOB),
+        setPriorityCommand expectedCommandForBobReverseParameters = new setPriorityCommand(new Nric(VALID_NRIC_BOB),
                 new Priority(VALID_PRIORITY_BOB));
         assertParseSuccess(parser, PRIORITY_DESC_BOB + NRIC_DESC_BOB, expectedCommandForBobReverseParameters);
     }

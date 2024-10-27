@@ -26,8 +26,9 @@ import seedu.address.logic.commands.FindNricCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListPrioCommand;
-import seedu.address.logic.commands.PriorityCommand;
+import seedu.address.logic.commands.setPriorityCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+
 
 /**
  * Parses user input.
@@ -90,7 +91,7 @@ public class AddressBookParser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
-        case PriorityCommand.COMMAND_WORD:
+        case setPriorityCommand.COMMAND_WORD:
             return new PriorityCommandParser().parse(arguments);
 
         case AddApptCommand.COMMAND_WORD:
